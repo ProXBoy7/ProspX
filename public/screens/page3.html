@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#3fe1fd",
+                    "on-primary-container": "#c8d8ff",
+                    "surface": "#f9f9ff",
+                    "on-tertiary-fixed": "#360f00",
+                    "surface-dim": "#cfdaf2",
+                    "on-secondary-fixed-variant": "#004e5a",
+                    "primary-fixed-dim": "#acc7ff",
+                    "primary": "#004492",
+                    "on-surface-variant": "#424753",
+                    "tertiary": "#7c2e00",
+                    "on-tertiary-container": "#ffceb9",
+                    "inverse-surface": "#263143",
+                    "secondary-fixed-dim": "#2fd9f4",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f0f3ff",
+                    "inverse-primary": "#acc7ff",
+                    "on-primary-fixed-variant": "#004492",
+                    "on-secondary-fixed": "#001f25",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#a23f01",
+                    "on-primary-fixed": "#001a40",
+                    "surface-bright": "#f9f9ff",
+                    "error": "#ba1a1a",
+                    "surface-container": "#e7eeff",
+                    "outline-variant": "#c2c6d5",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb595",
+                    "secondary-fixed": "#a2eeff",
+                    "surface-container-highest": "#d8e3fb",
+                    "tertiary-fixed": "#ffdbcd",
+                    "primary-container": "#005bbf",
+                    "on-tertiary-fixed-variant": "#7c2e00",
+                    "on-secondary-container": "#00616f",
+                    "primary-fixed": "#d7e2ff",
+                    "surface-variant": "#d8e3fb",
+                    "surface-container-high": "#dee8ff",
+                    "secondary": "#006877",
+                    "on-surface": "#111c2d",
+                    "inverse-on-surface": "#ecf1ff",
+                    "on-error": "#ffffff",
+                    "outline": "#727784",
+                    "background": "#f9f9ff",
+                    "on-background": "#111c2d",
+                    "surface-tint": "#005bbf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "container-padding": "32px",
+                    "section-gap": "64px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: #f9f9ff;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(172, 199, 255, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(63, 225, 253, 0.1) 0px, transparent 50%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 91, 191, 0.05);
+        }
+
+        .glass-panel-deep {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+        }
+
+        .shine-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-effect::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 55%
+            );
+            transform: translateX(-100%);
+            transition: transform 0.6s ease-in-out;
+        }
+
+        .shine-effect:hover::after {
+            transform: translateX(100%);
+        }
+
+        .switch-input:checked + .switch-slider {
+            background-color: #005bbf;
+        }
+
+        .switch-input:checked + .switch-slider:before {
+            transform: translateX(20px);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .active-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #3fe1fd;
+            box-shadow: 0 0 8px #3fe1fd;
+        }
+    </style>
+</head>
+<body class="text-on-background">
+<!-- Top Navigation Bar -->
+<header class="bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl border-b border-white/20 dark:border-white/10 shadow-sm shadow-primary/5 docked full-width top-0 sticky z-50">
+<div class="flex justify-between items-center w-full px-gutter py-4 max-w-full">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight">ScholarGlass AI</span>
+
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">workspace_premium</span>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
+<img alt="Student avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGJQbleX8gFcc5o1SWKC8U-sjBIzxBNCGIHGK6ebFlM_moLVsIFJOBOwjFQ5dbNy9UmZfPMqfeXMikT2xQ9ptHA1uPzVTKQZ1Zfp9JmQYfSUAn_jpbRv7iVSeNYQw8pyigWx4GYisiGwaUCcpRyZH_6MqqeLit6BMAnm0NDuy28KNKZpWqQlMeXd0oAbzALCcM9_0T261XdQuPrrrSGzWfBQAeyPSOhr_fADpI5piKqzMAlU63xPXM5Q3in8UKmTDLNSE6NxusqVY"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex max-w-[1600px] mx-auto min-h-[calc(100vh-140px)]">
+<!-- Sidebar Navigation -->
+
+<!-- Main Content Area -->
+<main class="flex-grow p-container-padding">
+<header class="mb-10">
+<h1 class="font-display-lg text-display-lg text-primary mb-2">Settings &amp; Security</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Manage your academic identity, security protocols, and visual workspace.</p>
+</header>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Main Controls Pane -->
+<div class="col-span-12 lg:col-span-8 flex flex-col gap-gutter">
+<!-- Theme Selector Section -->
+<section class="glass-card rounded-[30px] p-8 shine-effect">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Appearance</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Customize the luminosity of your interface</p>
+</div>
+<span class="material-symbols-outlined text-secondary-container">palette</span>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<button class="flex flex-col items-center gap-3 p-4 rounded-2xl border-2 border-primary bg-white shadow-sm transition-all scale-[1.02]">
+<div class="w-full h-20 rounded-lg bg-surface border border-outline-variant flex flex-col p-2 gap-1 overflow-hidden">
+<div class="h-2 w-1/2 bg-primary/20 rounded"></div>
+<div class="h-2 w-3/4 bg-outline-variant/20 rounded"></div>
+<div class="mt-auto flex gap-1">
+<div class="h-4 w-4 bg-primary/40 rounded-full"></div>
+<div class="h-4 w-4 bg-secondary/40 rounded-full"></div>
+</div>
+</div>
+<span class="font-label-md text-label-md text-primary font-bold">Light Mode</span>
+</button>
+<button class="flex flex-col items-center gap-3 p-4 rounded-2xl border-2 border-transparent bg-inverse-surface/10 hover:bg-white/40 transition-all">
+<div class="w-full h-20 rounded-lg bg-inverse-surface border border-white/10 flex flex-col p-2 gap-1 overflow-hidden">
+<div class="h-2 w-1/2 bg-white/20 rounded"></div>
+<div class="h-2 w-3/4 bg-white/10 rounded"></div>
+<div class="mt-auto flex gap-1">
+<div class="h-4 w-4 bg-primary-fixed-dim rounded-full"></div>
+<div class="h-4 w-4 bg-secondary-fixed-dim rounded-full"></div>
+</div>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">Dark Mode</span>
+</button>
+<button class="flex flex-col items-center gap-3 p-4 rounded-2xl border-2 border-transparent bg-inverse-surface/10 hover:bg-white/40 transition-all">
+<div class="w-full h-20 rounded-lg bg-gradient-to-r from-surface to-inverse-surface border border-outline-variant flex flex-col p-2 gap-1 overflow-hidden">
+<div class="h-2 w-1/2 bg-primary/20 rounded"></div>
+<div class="mt-auto h-4 w-4 bg-secondary/40 rounded-full"></div>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">System Sync</span>
+</button>
+</div>
+</section>
+<!-- Security & Privacy Section -->
+<section class="glass-card rounded-[30px] p-8 shine-effect">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-md text-headline-md text-primary">Security Protocols</h3>
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div class="space-y-6">
+<!-- 2FA Toggle -->
+<div class="flex items-center justify-between p-4 rounded-2xl bg-white/30 border border-white/50">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined">authenticator</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">Two-Factor Authentication</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Secure your account with an additional verification layer.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer switch-input" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container switch-slider"></div>
+</label>
+</div>
+<!-- Biometric Toggle -->
+<div class="flex items-center justify-between p-4 rounded-2xl bg-white/30 border border-white/50">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/10 flex items-center justify-center text-secondary-container">
+<span class="material-symbols-outlined">fingerprint</span>
+</div>
+<div>
+<p class="font-body-md text-body-md font-bold text-on-surface">Biometric Unlock</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Use Windows Hello or TouchID for rapid access.</p>
+</div>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer switch-input" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-outline-variant rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container switch-slider"></div>
+</label>
+</div>
+<!-- Privacy Permissions -->
+<div class="mt-8">
+<h4 class="font-label-md text-label-md text-primary font-bold mb-4 uppercase tracking-wider">Privacy &amp; Permissions</h4>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">visibility_off</span>
+<span class="font-label-md text-label-md">Anonymous Telemetry</span>
+<input checked="" class="ml-auto rounded-md text-primary focus:ring-secondary-container" type="checkbox"/>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">public</span>
+<span class="font-label-md text-label-md">Public Profile Discoverability</span>
+<input class="ml-auto rounded-md text-primary focus:ring-secondary-container" type="checkbox"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Secondary Side Pane -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-gutter">
+<!-- Storage Management Card (SCREEN_284 Variant) -->
+<section class="glass-card rounded-[30px] p-8 shine-effect flex flex-col h-full">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline-md text-headline-md text-primary">Academic Cloud</h3>
+<span class="material-symbols-outlined text-secondary-container">cloud_queue</span>
+</div>
+<div class="relative w-48 h-48 mx-auto mb-8">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-surface-container" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary transition-all duration-1000 ease-out" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.9" stroke-dashoffset="138.2" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-headline-lg text-primary">75%</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Storage Used</span>
+</div>
+</div>
+<div class="space-y-4 mb-auto">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span> Research Papers
+                                </span>
+<span class="font-label-md text-label-md font-bold">12.4 GB</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary-container"></span> AI Model Cache
+                                </span>
+<span class="font-label-md text-label-md font-bold">4.2 GB</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md flex items-center gap-2 text-outline-variant">
+<span class="w-3 h-3 rounded-full bg-surface-container-highest"></span> Remaining
+                                </span>
+<span class="font-label-md text-label-md font-bold text-outline-variant">3.4 GB</span>
+</div>
+</div>
+<button class="mt-8 w-full py-4 rounded-2xl bg-primary text-white font-label-md text-label-md font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
+                            Upgrade Storage Plan
+                        </button>
+<button class="mt-4 w-full py-4 rounded-2xl border-2 border-primary/20 text-primary font-label-md text-label-md font-bold hover:bg-white/40 transition-all">
+                            Purge Temporary Cache
+                        </button>
+</section>
+<!-- Profile Quick Card -->
+<section class="glass-card rounded-[30px] p-6 bg-gradient-to-br from-primary/5 to-secondary-container/5">
+<div class="flex items-center gap-4 mb-4">
+<img class="w-16 h-16 rounded-2xl object-cover shadow-sm" data-alt="A focused young woman in a high-tech university library, wearing sleek professional academic attire. The environment is illuminated with soft blue ambient lighting reflecting off glass surfaces and holographic projections. She exudes an aura of intelligence and academic achievement within a futuristic, luminous acrylic workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMHA8038arWgaZk5cvR6AtqzrkFhQ51UU9VrXQpQqyZ5o2yFvn7qlJpxeRLAy6kfdL4CKE9K_mPjB1wwcBs6PbMgeQ33fB9QJUSTwEUfudHIaes9vK-zSTpEN6itQQToXt9uWq-qjm3luZVL4KrwcuCmJWyixUWwjklDbizT0PsRLHGqYuSm-hom43Ix-Aw3WP4xkPPPg_3Lc3GZIbWyt6Rxjr5cZ3XWJR4aS_dkHIyqnxHQv56-wk976ZHviI7VymCcP7KJp2rQU"/>
+<div>
+<h4 class="font-label-md text-label-md text-primary font-bold">Premium Tier Member</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant italic">Active since Sept 2023</p>
+</div>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">Verified Academic</span>
+<span class="px-3 py-1 rounded-full bg-secondary-container/10 text-secondary-container text-[10px] font-bold uppercase tracking-widest">Beta Tester</span>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest/40 dark:bg-background/40 backdrop-blur-md w-full mt-section-gap border-t border-white/20 dark:border-white/10">
+<div class="max-w-7xl mx-auto py-8 px-container-padding flex flex-col md:flex-row justify-between items-center">
+<div class="flex flex-col items-center md:items-start gap-2 mb-6 md:mb-0">
+<span class="font-label-md text-label-md font-black text-primary uppercase tracking-tighter">ScholarGlass</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant/70 italic">Luminous Acrylic Academic Interface</p>
+</div>
+<nav class="flex flex-wrap justify-center gap-6 mb-6 md:mb-0">
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">University Partnerships</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">Contact Support</a>
+</nav>
+<div class="text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant/70">© 2024 ScholarGlass Academic Systems.</p>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for theme switching
+        const themeButtons = document.querySelectorAll('.grid-cols-3 button');
+        themeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                themeButtons.forEach(b => {
+                    b.classList.remove('border-primary', 'bg-white', 'shadow-sm', 'scale-[1.02]');
+                    b.classList.add('border-transparent', 'bg-inverse-surface/10');
+                    b.querySelector('span').classList.remove('text-primary', 'font-bold');
+                    b.querySelector('span').classList.add('text-on-surface-variant');
+                });
+                btn.classList.add('border-primary', 'bg-white', 'shadow-sm', 'scale-[1.02]');
+                btn.classList.remove('border-transparent', 'bg-inverse-surface/10');
+                btn.querySelector('span').classList.add('text-primary', 'font-bold');
+                btn.querySelector('span').classList.remove('text-on-surface-variant');
+            });
+        });
+
+        // Atmospheric effect - Subtle mouse move parallax on glass cards
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.glass-card');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardX = (e.clientX - rect.left) / rect.width;
+                const cardY = (e.clientY - rect.top) / rect.height;
+                
+                if (cardX > 0 && cardX < 1 && cardY > 0 && cardY < 1) {
+                    card.style.transform = `perspective(1000px) rotateX(${(cardY - 0.5) * 2}deg) rotateY(${(cardX - 0.5) * -2}deg)`;
+                } else {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+                }
+            });
+        });
+    </script>
+</body></html>

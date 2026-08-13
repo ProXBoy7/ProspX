@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ScholarGlass AI | Authentication</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#3fe1fd",
+                        "on-primary-container": "#c8d8ff",
+                        "surface": "#f9f9ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-dim": "#cfdaf2",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "primary-fixed-dim": "#acc7ff",
+                        "primary": "#004492",
+                        "on-surface-variant": "#424753",
+                        "tertiary": "#7c2e00",
+                        "on-tertiary-container": "#ffceb9",
+                        "inverse-surface": "#263143",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f0f3ff",
+                        "inverse-primary": "#acc7ff",
+                        "on-primary-fixed-variant": "#004492",
+                        "on-secondary-fixed": "#001f25",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#a23f01",
+                        "on-primary-fixed": "#001a40",
+                        "surface-bright": "#f9f9ff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e7eeff",
+                        "outline-variant": "#c2c6d5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-highest": "#d8e3fb",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#005bbf",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "on-secondary-container": "#00616f",
+                        "primary-fixed": "#d7e2ff",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container-high": "#dee8ff",
+                        "secondary": "#006877",
+                        "on-surface": "#111c2d",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-error": "#ffffff",
+                        "outline": "#727784",
+                        "background": "#f9f9ff",
+                        "on-background": "#111c2d",
+                        "surface-tint": "#005bbf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "section-gap": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9ff;
+            font-family: 'Hanken Grotesk', sans-serif;
+            overflow-x: hidden;
+        }
+        .acrylic-surface {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 91, 191, 0.08);
+        }
+        .acrylic-border-top {
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .shimmer-btn:hover::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 1s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { transform: translate(-100%, -100%) rotate(45deg); }
+            100% { transform: translate(100%, 100%) rotate(45deg); }
+        }
+        .luminous-blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(63, 225, 253, 0.15) 0%, rgba(0, 68, 146, 0.05) 50%, transparent 100%);
+            filter: blur(60px);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-gutter relative overflow-hidden">
+<!-- Luminous Background Elements -->
+<div class="luminous-blob top-[-100px] left-[-100px] animate-pulse"></div>
+<div class="luminous-blob bottom-[-100px] right-[-100px]" style="animation-delay: 2s"></div>
+
+<!-- Top Navigation Placeholder (Back to Site) -->
+<header class="fixed top-0 left-0 w-full p-gutter flex justify-between items-center z-50">
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tight">
+            ScholarGlass AI
+        </div>
+<a class="flex items-center gap-2 text-on-surface-variant font-label-md hover:text-primary transition-colors duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+            Back to home
+        </a>
+</header>
+<!-- Main Authentication Container -->
+<main class="w-full max-w-[1100px] min-h-[700px] acrylic-surface acrylic-border-top rounded-[40px] flex overflow-hidden z-10 relative mt-16 shadow-2xl">
+<!-- Left Side: Branding & Value Prop -->
+<div class="hidden lg:flex w-5/12 p-12 flex-col justify-between bg-gradient-to-br from-primary/10 to-secondary-container/10 border-r border-white/40">
+<div>
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-8 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-[28px]">school</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-primary mb-6 leading-tight">
+                    Refine Your <br/><span class="text-secondary-container bg-primary/90 px-2 py-1 rounded-lg">Academic</span> <br/>Vision.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[320px]">
+                    Experience the next generation of research clarity with our Luminous Acrylic interface.
+                </p>
+</div>
+<div class="space-y-6">
+<div class="flex items-start gap-4 p-4 rounded-2xl bg-white/30 backdrop-blur-sm border border-white/50">
+<span class="material-symbols-outlined text-primary text-[24px]">verified</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Evidence Vault</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Military-grade archival for your research.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-2xl bg-white/30 backdrop-blur-sm border border-white/50">
+<span class="material-symbols-outlined text-primary text-[24px]">smart_toy</span>
+<div>
+<p class="font-label-md text-label-md text-on-surface">AI Synthesis</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Real-time cross-referencing and insights.</p>
+</div>
+</div>
+</div>
+<div class="mt-8">
+<img alt="Campus Library" class="rounded-3xl border-4 border-white/80 shadow-xl" data-alt="A sun-drenched, ultra-modern university library with floor-to-ceiling glass windows and white minimalist furniture. The architectural lighting is high-key and bright, reflecting off polished marble surfaces to create a luminous acrylic aesthetic. Students are working on sleek laptops in a clean, professional, and visionary atmosphere with a light mode color palette of soft blues and pristine whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4dnw7V_Hn29yYQ_R7ti6o1Wr3-boe44bWvwK68sBRoz5j377rn9ekZyrQqMQVur6hI1gJv_5oKKbTToabP-7YjJtgTAE5i74HlWYELKhY5VGxidTFDmboi7Ph_MfDc_3ZWvKN2bewPy06mbXOd33rf0Mnv40YPTfFYLSgHY_tFjKWzmvNg5I1rdP10aWTHggKRQ9n94h1mqNUFCUSWBHwa5zYL-s9TJ0D7k8BqhAaIZZnGeUIvYpoV2qSqrkhp2MZiVw40vndEsc"/>
+</div>
+</div>
+<!-- Right Side: Interaction Area -->
+<div class="w-full lg:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-white/10" id="auth-form-container">
+<!-- Login State -->
+<div class="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500" id="login-state">
+<div class="text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Welcome Back</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Log in to access your research timeline.</p>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl border border-outline-variant bg-white/60 hover:bg-white transition-all font-label-md text-on-surface active:scale-95">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByHj9pp8cjnFgIYlfUlH951RdIoRUbBxdcB3xPBQwVpG1gvTgCQDCY1uYuxr3YEFmfds5WLfZVQcy1yPaPYVbVh63YuZy9o2ne63bSL4TtkOG1Safd0t64ilwesafqnV4bpx4IlJkPQeRpfBdnQeF5ViZK0cqjEal8Uob0hZZHJz7I0S7aGwjMo_q4-rhSrPaYjXJ8asmu8BWXbqL_2ymgAtiPaaMKXJtKxZkWTPZPTzThJJSNadUx9BumU6yunh49-EQRp__nCPY"/>
+                        Sign in with Google
+                    </button>
+<button class="flex items-center justify-center gap-3 px-6 py-3 rounded-xl border border-outline-variant bg-white/60 hover:bg-white transition-all font-label-md text-on-surface active:scale-95">
+<span class="material-symbols-outlined text-[20px]">apps</span>
+                        Sign in with Apple
+                    </button>
+</div>
+<div class="flex items-center gap-4 py-2">
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">or email</span>
+<div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+</div>
+<!-- Form -->
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface ml-1">Email Address</label>
+<input class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md" placeholder="julian@university.edu" type="email"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-md text-label-md text-on-surface">Password</label>
+<a class="font-label-sm text-label-sm text-primary hover:underline" href="#">Forgot?</a>
+</div>
+<input class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md" placeholder="••••••••" type="password"/>
+</div>
+<button class="shimmer-btn relative overflow-hidden w-full bg-primary text-on-primary py-4 rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all">
+                        Sign In to Dashboard
+                    </button>
+</form>
+<p class="text-center font-body-md text-body-md text-on-surface-variant">
+                    Don't have an account? 
+                    <button class="text-primary font-bold hover:underline" onclick="toggleAuth('signup')">Create an account</button>
+</p>
+</div>
+<!-- Sign Up State (Hidden by default) -->
+<div class="hidden space-y-8 animate-in fade-in slide-in-from-right-4 duration-500" id="signup-state">
+<div class="text-center md:text-left">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Academic Registration</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Join ScholarGlass and start vaulting your evidence.</p>
+</div>
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface ml-1">Full Name</label>
+<input class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md" placeholder="Julian Academic" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface ml-1">University Email</label>
+<input class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md" placeholder="student@edu.com" type="email"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface ml-1">Department</label>
+<select class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md appearance-none">
+<option>Social Sciences</option>
+<option>STEM</option>
+<option>Humanities</option>
+<option>Business &amp; Law</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface ml-1">Academic Year</label>
+<select class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md appearance-none">
+<option>Freshman</option>
+<option>Sophomore</option>
+<option>Junior</option>
+<option>Senior</option>
+<option>Graduate</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface ml-1">Create Password</label>
+<input class="w-full px-5 py-4 rounded-xl bg-white/40 border border-outline-variant/50 focus:border-secondary-container focus:ring-4 focus:ring-secondary-container/10 transition-all outline-none font-body-md" placeholder="Min. 8 characters" type="password"/>
+</div>
+<div class="flex items-start gap-3 px-1 py-2">
+<input class="mt-1 w-5 h-5 rounded border-outline-variant text-primary focus:ring-secondary-container" id="terms" type="checkbox"/>
+<label class="font-label-sm text-label-sm text-on-surface-variant" for="terms">
+                            I agree to the <a class="text-primary hover:underline" href="#">ScholarGlass Terms</a> and <a class="text-primary hover:underline" href="#">Privacy Policy</a>.
+                        </label>
+</div>
+<button class="shimmer-btn relative overflow-hidden w-full bg-primary text-on-primary py-4 rounded-xl font-label-md text-label-md shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all">
+                        Create Academic Profile
+                    </button>
+</form>
+<p class="text-center font-body-md text-body-md text-on-surface-variant">
+                    Already have an account? 
+                    <button class="text-primary font-bold hover:underline" onclick="toggleAuth('login')">Log in instead</button>
+</p>
+</div>
+</div>
+</main>
+<!-- Footer Identity -->
+<footer class="mt-12 text-center p-gutter z-10">
+<p class="font-label-sm text-label-sm text-on-surface-variant/70">
+            © 2024 ScholarGlass Academic Systems. Luminous Acrylic Interface.
+        </p>
+<div class="flex gap-6 justify-center mt-4 font-label-sm text-label-sm text-outline underline-offset-4 decoration-outline-variant/30">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Accessibility Status</a>
+</div>
+</footer>
+<script>
+        function toggleAuth(target) {
+            const login = document.getElementById('login-state');
+            const signup = document.getElementById('signup-state');
+            
+            if (target === 'signup') {
+                login.classList.add('hidden');
+                signup.classList.remove('hidden');
+            } else {
+                signup.classList.add('hidden');
+                login.classList.remove('hidden');
+            }
+        }
+
+        // Add subtle mouse-tracking movement for a "dynamic glass" effect
+        document.addEventListener('mousemove', (e) => {
+            const x = (window.innerWidth / 2 - e.pageX) / 50;
+            const y = (window.innerHeight / 2 - e.pageY) / 50;
+            const container = document.querySelector('main');
+            container.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
+        });
+    </script>
+</body></html>

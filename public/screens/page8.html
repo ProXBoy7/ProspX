@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "secondary-container": "#3fe1fd",
+                        "on-primary-container": "#c8d8ff",
+                        "surface": "#f9f9ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-dim": "#cfdaf2",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "primary-fixed-dim": "#acc7ff",
+                        "primary": "#004492",
+                        "on-surface-variant": "#424753",
+                        "tertiary": "#7c2e00",
+                        "on-tertiary-container": "#ffceb9",
+                        "inverse-surface": "#263143",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f0f3ff",
+                        "inverse-primary": "#acc7ff",
+                        "on-primary-fixed-variant": "#004492",
+                        "on-secondary-fixed": "#001f25",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-container": "#a23f01",
+                        "on-primary-fixed": "#001a40",
+                        "surface-bright": "#f9f9ff",
+                        "error": "#ba1a1a",
+                        "surface-container": "#e7eeff",
+                        "outline-variant": "#c2c6d5",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container-highest": "#d8e3fb",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#005bbf",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "on-secondary-container": "#00616f",
+                        "primary-fixed": "#d7e2ff",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container-high": "#dee8ff",
+                        "secondary": "#006877",
+                        "on-surface": "#111c2d",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-error": "#ffffff",
+                        "outline": "#727784",
+                        "background": "#f9f9ff",
+                        "on-background": "#111c2d",
+                        "surface-tint": "#005bbf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-padding": "32px",
+                        "section-gap": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "display-lg": ["56px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f9f9ff;
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(210,100%,98%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(215,100%,96%,1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(220,100%,94%,1) 0, transparent 50%);
+            min-height: 100vh;
+        }
+        .acrylic-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 91, 191, 0.05);
+        }
+        .acrylic-card:hover .shine-effect {
+            transform: translateX(200%);
+        }
+        .shine-effect {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: skewX(-25deg);
+            transition: transform 0.6s ease;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 68, 146, 0.1);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 68, 146, 0.2);
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background overflow-hidden flex h-screen">
+<!-- Sidebar Navigation -->
+
+<main class="flex-1 flex flex-col relative overflow-hidden">
+<!-- Top Navigation -->
+<header class="bg-surface/80 backdrop-blur-xl sticky top-0 z-40 border-b border-white/20 shadow-sm shadow-primary/5 px-gutter py-4 flex justify-between items-center w-full">
+<div class="flex items-center gap-6">
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="bg-surface-container/50 border-none rounded-full pl-10 pr-4 py-2 w-64 focus:ring-2 focus:ring-secondary-container transition-all text-label-md" placeholder="Search AI Hub..." type="text"/>
+</div>
+
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-white/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-white/20 active:scale-95 transition-all">
+<span class="material-symbols-outlined">workspace_premium</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area: Split Pane -->
+<div class="flex-1 flex overflow-hidden">
+<!-- Left Pane: Chat Interface -->
+<section class="w-[400px] border-r border-white/20 flex flex-col bg-white/10">
+<div class="p-6 border-b border-white/10 flex items-center justify-between">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary font-bold">Ask Your Portfolio</h2>
+<p class="text-label-sm font-label-sm text-outline-variant">Connected to 14 academic artifacts</p>
+</div>
+<span class="material-symbols-outlined text-primary-container">psychology</span>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+<!-- AI Greeting -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container text-sm">smart_toy</span>
+</div>
+<div class="acrylic-card rounded-2xl p-4 max-w-[85%] relative overflow-hidden">
+<div class="shine-effect"></div>
+<p class="font-body-md text-on-surface">Hello Julian! I've analyzed your academic records and project history. How can I help you refine your portfolio today?</p>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex flex-row-reverse gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white text-sm">person</span>
+</div>
+<div class="bg-primary text-white rounded-2xl p-4 max-w-[85%] shadow-md">
+<p class="font-body-md">Can you help me draft a motivation letter for the Global Design Fellowship? Focus on my UI/UX project 'Aether' and my 4.0 GPA in Digital Media.</p>
+</div>
+</div>
+<!-- AI Response -->
+<div class="flex gap-3">
+<div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-secondary-container text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="acrylic-card rounded-2xl p-4 max-w-[85%] relative overflow-hidden">
+<div class="shine-effect"></div>
+<p class="font-body-md text-on-surface mb-3">Certainly! I've synthesized a draft highlighting your technical proficiency in 'Aether' and your academic consistency. I've sent the document to the <strong>Generator Pane</strong> on the right for you to review and edit.</p>
+<div class="bg-surface/50 rounded-lg p-2 border border-white/20 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm">description</span>
+<span class="text-label-sm font-label-sm">Motivation_Letter_v1.pdf</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="p-4 bg-white/20 border-t border-white/20">
+<div class="relative flex items-center">
+<input class="w-full bg-white/80 border-2 border-transparent focus:border-secondary-container rounded-2xl px-4 py-4 pr-14 shadow-inner text-body-md outline-none transition-all" placeholder="Type your request..." type="text"/>
+<button class="absolute right-2 p-3 bg-primary text-white rounded-xl active:scale-95 transition-transform">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Right Pane: AI Tools & Document Generator -->
+<section class="flex-1 overflow-y-auto p-container-padding custom-scrollbar relative">
+<!-- Background Decoration -->
+<div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+
+</div>
+<div class="relative z-10 max-w-5xl mx-auto">
+<!-- Tool Grid -->
+<div class="grid grid-cols-3 gap-6 mb-section-gap">
+<div class="acrylic-card p-6 rounded-[30px] group cursor-pointer relative overflow-hidden border border-white/40">
+<div class="shine-effect"></div>
+<div class="w-12 h-12 rounded-2xl bg-secondary-container/20 flex items-center justify-center mb-4 text-secondary">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-1">Doc Gen</h3>
+<p class="text-label-md font-label-md text-outline">Academic writing &amp; formatting</p>
+</div>
+<div class="acrylic-card p-6 rounded-[30px] group cursor-pointer relative overflow-hidden border border-white/40">
+<div class="shine-effect"></div>
+<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined">summarize</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-1">Smart Summary</h3>
+<p class="text-label-md font-label-md text-outline">TL;DR for complex papers</p>
+</div>
+<div class="acrylic-card p-6 rounded-[30px] group cursor-pointer relative overflow-hidden border border-white/40">
+<div class="shine-effect"></div>
+<div class="w-12 h-12 rounded-2xl bg-tertiary/10 flex items-center justify-center mb-4 text-tertiary">
+<span class="material-symbols-outlined">translate</span>
+</div>
+<h3 class="font-headline-md text-headline-md font-bold text-on-surface mb-1">Linguist</h3>
+<p class="text-label-md font-label-md text-outline">Global reach translation</p>
+</div>
+</div>
+<!-- Document Editor View (Large Card) -->
+<div class="acrylic-card rounded-[40px] overflow-hidden border border-white/60 shadow-2xl shadow-primary/10">
+<!-- Editor Toolbar -->
+<div class="bg-white/60 px-8 py-4 border-b border-white/40 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<span class="font-headline-md text-headline-md text-primary font-black">Document Generator</span>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<span class="text-label-md font-label-md text-outline">Draft: Motivation_Letter_v1</span>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-white transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span> Export
+                                </button>
+<button class="flex items-center gap-2 px-6 py-2 rounded-xl bg-primary text-white font-label-md text-label-md shadow-lg shadow-primary/20 hover:scale-[1.02] transition-all">
+<span class="material-symbols-outlined text-[18px]">publish</span> Submit
+                                </button>
+</div>
+</div>
+<!-- Main Text Content -->
+<div class="p-12 min-h-[600px] bg-white/20">
+<div class="max-w-2xl mx-auto space-y-8">
+<div class="flex justify-end">
+<div class="text-right text-on-surface-variant font-label-md">
+<p>Julian Academic</p>
+<p>Faculty of Digital Arts</p>
+<p>November 24, 2024</p>
+</div>
+</div>
+<div class="space-y-4">
+<p class="font-headline-md text-headline-md font-bold text-on-surface">Subject: Letter of Motivation for the Global Design Fellowship</p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">Dear Admissions Committee,</p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                                        I am writing to express my enthusiastic interest in the Global Design Fellowship. As a senior Digital Media student with a consistent 4.0 GPA, I have dedicated my academic career to exploring the intersection of human-centric design and emerging technologies. 
+                                    </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                                        My primary project, <strong>'Aether'</strong>, represents the culmination of this journey. Aether is a spatial computing interface designed to democratize access to complex data visualization. During its development, I focused on creating an 'Acrylic Luminous' aesthetic that prioritizes visual clarity and reduced cognitive load—principles that align perfectly with the Fellowship’s mission of 'Design for All.'
+                                    </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                                        The scholarship would not only support my technical growth but also provide a platform to collaborate with global leaders in the field. I am eager to bring my vision for high-fidelity, accessible interfaces to your prestigious community.
+                                    </p>
+<div class="pt-8">
+<p class="font-body-lg text-body-lg text-on-surface-variant">Sincerely,</p>
+<p class="font-headline-md text-headline-md font-black text-primary mt-2">Julian Academic</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Feedback Widget -->
+<div class="absolute bottom-8 right-8 bg-secondary-container text-on-secondary-container p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-3 animate-bounce">
+<span class="material-symbols-outlined">spark</span>
+<span class="font-label-md text-label-md font-bold">AI suggested 3 improvements</span>
+<span class="material-symbols-outlined cursor-pointer hover:rotate-90 transition-transform">close</span>
+</div>
+</div>
+</div>
+<!-- Footer Section -->
+<footer class="mt-section-gap border-t border-white/20 py-8 px-container-padding flex flex-col md:flex-row justify-between items-center text-on-surface-variant/70 font-label-sm text-label-sm">
+<div class="flex items-center gap-2 mb-4 md:mb-0">
+<span class="font-black text-primary text-label-md font-label-md">ScholarGlass</span>
+<span>© 2024 Academic Systems. Luminous Acrylic Interface.</span>
+</div>
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">University Partnerships</a>
+<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</footer>
+</section>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for the shine effect sweep
+        document.querySelectorAll('.acrylic-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const shine = card.querySelector('.shine-effect');
+                if (shine) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    shine.style.left = `${x - rect.width}px`;
+                }
+            });
+            card.addEventListener('mouseleave', () => {
+                const shine = card.querySelector('.shine-effect');
+                if (shine) {
+                    shine.style.left = '-100%';
+                }
+            });
+        });
+
+        // Background atmosphere: slow movement of the glow
+        const main = document.querySelector('main');
+        main.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth) * 100;
+            const y = (e.clientY / window.innerHeight) * 100;
+            document.body.style.backgroundImage = `
+                radial-gradient(at ${x}% ${y}%, hsla(210,100%,98%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(215,100%,96%,1) 0, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(220,100%,94%,1) 0, transparent 50%)
+            `;
+        });
+    </script>
+</body></html>

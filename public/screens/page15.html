@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evidence Vault - ScholarGlass AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#f9f9ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-container": "#e7eeff",
+                        "on-primary-fixed": "#001a40",
+                        "on-surface-variant": "#424753",
+                        "outline": "#727784",
+                        "surface-container-high": "#dee8ff",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#005bbf",
+                        "surface-variant": "#d8e3fb",
+                        "surface-container-low": "#f0f3ff",
+                        "on-primary-container": "#c8d8ff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#acc7ff",
+                        "surface-dim": "#cfdaf2",
+                        "secondary-container": "#3fe1fd",
+                        "primary": "#004492",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "primary-fixed": "#d7e2ff",
+                        "surface": "#f9f9ff",
+                        "outline-variant": "#c2c6d5",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "on-primary-fixed-variant": "#004492",
+                        "tertiary-container": "#a23f01",
+                        "tertiary": "#7c2e00",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "on-surface": "#111c2d",
+                        "on-secondary-fixed": "#001f25",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "secondary": "#006877",
+                        "background": "#f9f9ff",
+                        "on-background": "#111c2d",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#005bbf",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffceb9",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-secondary-container": "#00616f",
+                        "on-primary": "#ffffff",
+                        "inverse-surface": "#263143",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#acc7ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "64px",
+                        "container-padding": "32px",
+                        "unit": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "display-lg": ["56px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.04em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: theme('colors.background');
+            background-image: radial-gradient(circle at top right, rgba(0, 91, 191, 0.05), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(63, 225, 253, 0.05), transparent 40%);
+            background-attachment: fixed;
+            color: theme('colors.on-background');
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(0, 91, 191, 0.05);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .glass-card:hover::before {
+            left: 200%;
+        }
+        .glass-card:hover {
+            backdrop-filter: blur(24px);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 48px rgba(0, 91, 191, 0.08);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex text-on-surface">
+<!-- SideNavBar -->
+
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-h-screen relative overflow-x-hidden">
+<!-- TopNavBar (Mobile Only) -->
+<header class="flex md:hidden justify-between items-center w-full px-gutter py-4 max-w-full docked full-width top-0 sticky z-50 bg-surface/80 backdrop-blur-xl border-b border-white/20 shadow-sm shadow-primary/5">
+<h1 class="font-headline-md text-headline-md font-bold text-primary tracking-tight">ScholarGlass AI</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform">notifications</span>
+<div class="w-8 h-8 rounded-full bg-primary/10 overflow-hidden">
+<span class="material-symbols-outlined text-primary flex items-center justify-center w-full h-full text-sm">person</span>
+</div>
+</div>
+</header>
+<div class="flex-1 p-gutter md:p-container-padding max-w-[1600px] mx-auto w-full">
+<!-- Vault Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-6">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-primary-fixed mb-2">Evidence Vault</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Manage and verify your academic credentials, project artifacts, and official documentation.</p>
+</div>
+<!-- Segmented Control -->
+<div class="flex p-1 bg-surface-container-high/50 backdrop-blur-md rounded-full border border-white/50 shadow-inner">
+<button class="px-6 py-2.5 rounded-full bg-white text-primary font-label-md text-label-md shadow-sm transition-all">
+                        Certificates
+                    </button>
+<button class="px-6 py-2.5 rounded-full text-on-surface-variant hover:text-primary font-label-md text-label-md transition-all hover:bg-white/20">
+                        Photos
+                    </button>
+<button class="px-6 py-2.5 rounded-full text-on-surface-variant hover:text-primary font-label-md text-label-md transition-all hover:bg-white/20">
+                        Documents
+                    </button>
+</div>
+</div>
+
+
+<!-- Action Bar -->
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-8">
+<div class="relative w-full sm:w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-white/40 border border-white/60 rounded-full font-body-md text-body-md focus:bg-white/80 focus:ring-2 focus:ring-secondary-container focus:border-transparent transition-all backdrop-blur-sm outline-none placeholder:text-outline" placeholder="Search evidence..." type="text"/>
+</div>
+<div class="flex gap-3 w-full sm:w-auto">
+<button class="flex-1 sm:flex-none px-4 py-3 flex items-center justify-center gap-2 bg-white/40 border border-white/60 rounded-full hover:bg-white/60 transition-all font-label-md text-label-md text-primary">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex-1 sm:flex-none px-6 py-3 bg-primary text-white rounded-full font-label-md text-label-md shadow-[0_0_15px_rgba(63,225,253,0.3)] hover:shadow-[0_0_20px_rgba(63,225,253,0.5)] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                        Upload
+                    </button>
+</div>
+</div>
+<!-- Vault Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card 1 -->
+<div class="glass-card group cursor-pointer flex flex-col h-full">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBwR_4LCA9NuUu-aWHmPOJQx0f126WRaXrcBkQvAXBDmBukDgfc_FtSeltQkophG1LyHWWSrbdUoU__h5zziHY1qDveKhdxWC0P8B888yXvsAt1GfI-3OWknkK68BcKJ2HJWH1vH6NT8jt85jagHIFd0qwy6v9gafQvD9bLUwxbzGJ5f9voJf6Xm2Jyj9rV6LPvNWUiTKm0B_Y-zntTrQ82bAqF5uHVq1Cw3En8ssCoPQEBqeSuD_oURZygIofKK-42CJ7Fjc8MjgY');"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-1.5 rounded-full border border-white/50 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex gap-2 mb-3">
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">Award</span>
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">2024</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 line-clamp-2">Green Flag Award 24/25</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-auto pt-4 flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                            View Details
+                        </p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-card group cursor-pointer flex flex-col h-full">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDuQEghgHp4q04DwrfujM59LWLoA9g2ZQD_lBk0EO30S8zaOm07hFkJSQuWwvgv2ul2NIZF0VT4VKlPd4ECuXUQ_jE1pHTVGkbLdBwmjs8Z7yEaNv2FIWvgmIgJtbfSQ7HfSXOCZAT9mSYcmGSsdUMFWfzgJkxkZ5A3kx-UjBo3oUZQC4REZ8nqksKWJ8sJXXqveFHVbDjEByHSY0_e_W9mULZ4unOOjul_WQqZS5eUb_GZi2DBQ-8oR20UbqNmxi8ZZoPzu5BdtrU');"></div>
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-1.5 rounded-full border border-white/50 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex gap-2 mb-3">
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">Credential</span>
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">International</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 line-clamp-2">Istanbul MUN Delegate Pass</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-auto pt-4 flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                            View Details
+                        </p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-card group cursor-pointer flex flex-col h-full">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAFuofLrf4SavmskBnxayOI9B0mGq5-FD1ASP9n7DvC86XtkrKTk-nncu0CrTXGOqyCGgm9vtirP1WRnldPDXKPxg7eT_weQuWj3cPtIoF5ATNxoA1iNVGcH_yGGSnxDobLZiutQaim6zhLpJDt3vV83BuU37YosDeekDS-hcWsnv9iXSVM_dC9nBmyqVkeQoHZGehxX_EhBhSff08qcO9ovSgTrQyH6xdqpNEdM7eIFRA57FieX-x0vy0gQRpc8BAWIcvVWL1yFp8');"></div>
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-1.5 rounded-full border border-white/50 text-primary">
+<span class="material-symbols-outlined text-[18px]">gpp_maybe</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex gap-2 mb-3">
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">Transcript</span>
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">Pending</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 line-clamp-2">Calculus 1 Transcript (NUU)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-auto pt-4 flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                            View Details
+                        </p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-card group cursor-pointer flex flex-col h-full">
+<div class="h-48 w-full relative overflow-hidden bg-surface-container">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBDCilta5TziTaGAAh_c8BJ_7dVO2O_kpP3EduWGIkzphO2dg_fbfP_4aAx9QzQiNY3xulDzmWj_Rb-aaVuzc2PPiVffFewIThcrx254CuNpC6fE2mRulaGSUBgzyA-7YuSyVuPm285-1eiLrkbYiW_xAuItctxig96rHdicD_uJBmqPAmKfSG7G-YSq4ZKtH6b7422EATpycygi9E1H8W7USjB6uJvn59k-nyOMY4ORHdQ0I6tpDT8f70zwrl4C04-YEElFt3Mj6g');"></div>
+<div class="absolute top-4 right-4 bg-white/80 backdrop-blur-md p-1.5 rounded-full border border-white/50 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<div class="flex gap-2 mb-3">
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">Project</span>
+<span class="px-2.5 py-1 bg-surface-variant text-primary rounded-full font-label-sm text-label-sm border border-white/40">Env Sci</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 line-clamp-2">Paperless COP Documentation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-auto pt-4 flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+                            View Details
+                        </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-surface-container-lowest/40 backdrop-blur-md border-t border-white/20">
+<div class="max-w-7xl mx-auto py-8 px-container-padding flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 ScholarGlass Academic Systems. Luminous Acrylic Interface.</p>
+<div class="flex gap-6">
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">Terms of Service</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">University Partnerships</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant/70 hover:text-primary transition-colors duration-200 ease-in-out" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

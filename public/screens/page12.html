@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Evidence Vault - Loading State</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-dim": "#cfdaf2",
+                        "primary-fixed": "#d7e2ff",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "secondary-container": "#3fe1fd",
+                        "primary": "#004492",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#ecf1ff",
+                        "outline": "#727784",
+                        "on-surface-variant": "#424753",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#dee8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-bright": "#f9f9ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "surface-container": "#e7eeff",
+                        "on-primary-fixed": "#001a40",
+                        "surface-container-low": "#f0f3ff",
+                        "on-primary-container": "#c8d8ff",
+                        "on-error-container": "#93000a",
+                        "inverse-primary": "#acc7ff",
+                        "surface-tint": "#005bbf",
+                        "surface-variant": "#d8e3fb",
+                        "on-background": "#111c2d",
+                        "background": "#f9f9ff",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "secondary": "#006877",
+                        "inverse-surface": "#263143",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-secondary-container": "#00616f",
+                        "on-primary": "#ffffff",
+                        "primary-fixed-dim": "#acc7ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#005bbf",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#ffceb9",
+                        "outline-variant": "#c2c6d5",
+                        "surface": "#f9f9ff",
+                        "tertiary-container": "#a23f01",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "on-surface": "#111c2d",
+                        "on-secondary-fixed": "#001f25",
+                        "tertiary": "#7c2e00",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "on-primary-fixed-variant": "#004492"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "section-gap": "64px",
+                        "container-padding": "32px",
+                        "unit": "8px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Hanken Grotesk"],
+                        "label-md": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-lg": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "label-sm": ["Hanken Grotesk"],
+                        "body-md": ["Hanken Grotesk"]
+                    },
+                    fontSize: {
+                        "headline-md": ["24px", { lineHeight: "1.3", fontWeight: "600" }],
+                        "label-md": ["14px", { lineHeight: "1.4", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "headline-lg": ["32px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "display-lg": ["56px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-lg-mobile": ["28px", { lineHeight: "1.2", fontWeight: "600" }],
+                        "label-sm": ["12px", { lineHeight: "1.4", letterSpacing: "0.04em", fontWeight: "500" }],
+                        "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }]
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 2s infinite linear',
+                        'pulse-glow': 'pulseGlow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '0%': { backgroundPosition: '-1000px 0' },
+                            '100%': { backgroundPosition: '1000px 0' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { opacity: 1 },
+                            '50%': { opacity: .5 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background: linear-gradient(135deg, #f0f3ff 0%, #e7eeff 50%, #d8e3fb 100%);
+            background-attachment: fixed;
+            color: #111c2d;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(0, 91, 191, 0.05);
+        }
+        .skeleton-bg {
+            background: linear-gradient(90deg, rgba(207, 218, 242, 0.3) 25%, rgba(215, 226, 255, 0.6) 50%, rgba(207, 218, 242, 0.3) 75%);
+            background-size: 1000px 100%;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen bg-background">
+<!-- SideNavBar -->
+
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col min-w-0">
+<!-- TopNavBar -->
+<header class="bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-xl text-primary dark:text-primary-fixed-dim font-label-md text-label-md docked full-width top-0 sticky z-30 border-b border-white/20 dark:border-white/10 shadow-sm shadow-primary/5 flex justify-between items-center w-full px-gutter py-4 max-w-full">
+<div class="flex items-center gap-8">
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim tracking-tight hidden md:block">ScholarGlass AI</h1>
+
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="glass-panel pl-10 pr-4 py-2 rounded-full w-64 focus:outline-none focus:ring-2 focus:ring-secondary-container transition-all text-on-surface placeholder:text-outline-variant bg-white/40" placeholder="Search..." type="text"/>
+</div>
+<button class="w-10 h-10 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors text-primary relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full border border-white"></span>
+</button>
+<button class="w-10 h-10 rounded-full hover:bg-white/20 flex items-center justify-center transition-colors text-primary">
+<span class="material-symbols-outlined">workspace_premium</span>
+</button>
+<div class="w-9 h-9 rounded-full bg-surface-variant border-2 border-white/50 overflow-hidden ml-2 cursor-pointer">
+<img alt="Student avatar" class="w-full h-full object-cover" data-alt="A close-up portrait of a young student with a subtle smile, softly lit to match the bright, clean luminous acrylic UI aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALD7Gb37RTXwJQicIFVByWrlDmqd7iz9dCgZGq-zCPKc19G5TP8mIdkms7nQ-RElxyzlW9ISNqT1TiDdrd8XIrhwlTdm1UL4a29YSuqxVdiY_1GTbaVJkGjjBvvXqKQSRMO3wSavgIXlXmKdFmq2N4LiiCmFWD1D0bzvefj4zpFK_i1cE4B8CS76ZfdPBb0xjBhWQeB2q1N8NDsxipuGGnq4eSEBDuwp5OL9xbJvxCMAvqOvWu6Gcezr88exqdofni10ba0m02jrE"/>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="flex-1 p-container-padding overflow-y-auto">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 pb-6 border-b border-white/30 relative">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer opacity-50 pointer-events-none"></div>
+<div>
+<div class="skeleton-bg animate-shimmer h-8 w-48 mb-2 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-64 rounded"></div>
+</div>
+<div class="flex gap-3">
+<div class="skeleton-bg animate-shimmer h-10 w-24 rounded-full"></div>
+<div class="skeleton-bg animate-shimmer h-10 w-32 rounded-full"></div>
+</div>
+</div>
+<!-- Filters & Controls Skeleton -->
+<div class="flex flex-wrap gap-4 items-center">
+<div class="skeleton-bg animate-shimmer h-8 w-20 rounded-full"></div>
+<div class="skeleton-bg animate-shimmer h-8 w-24 rounded-full"></div>
+<div class="skeleton-bg animate-shimmer h-8 w-28 rounded-full"></div>
+<div class="flex-1"></div>
+<div class="skeleton-bg animate-shimmer h-10 w-40 rounded-xl"></div>
+</div>
+<!-- Grid Loading State -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mt-8">
+<!-- Skeleton Card 1 -->
+<div class="glass-panel rounded-[30px] p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="skeleton-bg animate-shimmer h-40 w-full rounded-xl mb-6"></div>
+<div class="space-y-3">
+<div class="skeleton-bg animate-shimmer h-5 w-3/4 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-1/2 rounded"></div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex gap-2">
+<div class="skeleton-bg animate-shimmer h-6 w-16 rounded-full"></div>
+<div class="skeleton-bg animate-shimmer h-6 w-12 rounded-full"></div>
+</div>
+<div class="skeleton-bg animate-shimmer h-8 w-8 rounded-full"></div>
+</div>
+</div>
+<!-- Skeleton Card 2 -->
+<div class="glass-panel rounded-[30px] p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="skeleton-bg animate-shimmer h-40 w-full rounded-xl mb-6"></div>
+<div class="space-y-3">
+<div class="skeleton-bg animate-shimmer h-5 w-5/6 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-2/3 rounded"></div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex gap-2">
+<div class="skeleton-bg animate-shimmer h-6 w-14 rounded-full"></div>
+</div>
+<div class="skeleton-bg animate-shimmer h-8 w-8 rounded-full"></div>
+</div>
+</div>
+<!-- Skeleton Card 3 -->
+<div class="glass-panel rounded-[30px] p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="skeleton-bg animate-shimmer h-40 w-full rounded-xl mb-6"></div>
+<div class="space-y-3">
+<div class="skeleton-bg animate-shimmer h-5 w-3/4 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-1/2 rounded"></div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex gap-2">
+<div class="skeleton-bg animate-shimmer h-6 w-20 rounded-full"></div>
+<div class="skeleton-bg animate-shimmer h-6 w-16 rounded-full"></div>
+</div>
+<div class="skeleton-bg animate-shimmer h-8 w-8 rounded-full"></div>
+</div>
+</div>
+<!-- Skeleton Card 4 -->
+<div class="glass-panel rounded-[30px] p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="skeleton-bg animate-shimmer h-40 w-full rounded-xl mb-6"></div>
+<div class="space-y-3">
+<div class="skeleton-bg animate-shimmer h-5 w-4/5 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-3/4 rounded"></div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex gap-2">
+<div class="skeleton-bg animate-shimmer h-6 w-16 rounded-full"></div>
+</div>
+<div class="skeleton-bg animate-shimmer h-8 w-8 rounded-full"></div>
+</div>
+</div>
+<!-- Skeleton Card 5 -->
+<div class="glass-panel rounded-[30px] p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="skeleton-bg animate-shimmer h-40 w-full rounded-xl mb-6"></div>
+<div class="space-y-3">
+<div class="skeleton-bg animate-shimmer h-5 w-3/4 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-1/2 rounded"></div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex gap-2">
+<div class="skeleton-bg animate-shimmer h-6 w-16 rounded-full"></div>
+</div>
+<div class="skeleton-bg animate-shimmer h-8 w-8 rounded-full"></div>
+</div>
+</div>
+<!-- Skeleton Card 6 -->
+<div class="glass-panel rounded-[30px] p-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<div class="skeleton-bg animate-shimmer h-40 w-full rounded-xl mb-6"></div>
+<div class="space-y-3">
+<div class="skeleton-bg animate-shimmer h-5 w-5/6 rounded"></div>
+<div class="skeleton-bg animate-shimmer h-4 w-2/3 rounded"></div>
+</div>
+<div class="mt-6 flex justify-between items-center">
+<div class="flex gap-2">
+<div class="skeleton-bg animate-shimmer h-6 w-20 rounded-full"></div>
+</div>
+<div class="skeleton-bg animate-shimmer h-8 w-8 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
