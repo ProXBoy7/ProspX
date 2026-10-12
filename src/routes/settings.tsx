@@ -1,48 +1,54 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { useRef, useState } from "react";
-import { useTheme } from "../lib/use-theme";
+import { useState, useEffect } from "react";
+import { loadAppState, saveAppState, AppState, StudentProfile } from "../lib/store";
+import { SettingsView } from "../components/settings/SettingsView";
 
 export const Route = createFileRoute("/settings")({
-  head: () => ({ meta: [{ title: "Settings — ScholarGlass AI" }] }),
+  head: () => ({ meta: [{ title: "Settings & Gemini API — ScholarGlass AI" }] }),
   component: SettingsPage,
 });
 
 function SettingsPage() {
-  const { theme } = useTheme();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [appState, setAppState] = useState<AppState>(loadAppState);
 
-  const handleIframeLoad = () => {
-    setIsTransitioning(false);
-    try {
-      const doc = iframeRef.current?.contentDocument;
-      if (!doc) return;
-      doc.documentElement.className = theme;
-      const style = doc.createElement("style");
-      style.innerHTML = `
-        header.docked, header.sticky, header.top-0, header.mb-8, aside { display: none !important; }
-        body { margin: 0; padding: 16px; background: transparent !important; overflow-x: hidden; }
-      `;
-      doc.head.appendChild(style);
-    } catch {}
+  useEffect(() => {
+    const handleUpdate = () => {
+      setAppState(loadAppState());
+    };
+    window.addEventListener("scholarglass_state_updated", handleUpdate);
+    return () => window.removeEventListener("scholarglass_state_updated", handleUpdate);
+  }, []);
+
+  const handleSaveProfile = (updatedProfile: StudentProfile) => {
+    const updated = {
+      ...appState,
+      profile: updatedProfile
+    };
+    setAppState(updated);
+    saveAppState(updated);
+  };
+
+  const handleSaveApiKey = (key: string) => {
+    const updated = {
+      ...appState,
+      geminiApiKey: key
+    };
+    setAppState(updated);
+    saveAppState(updated);
   };
 
   return (
     <DashboardLayout>
-      {isTransitioning && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
-      )}
-      <iframe
-        ref={iframeRef}
-        src="/screens/page3.html"
-        title="Settings"
-        onLoad={handleIframeLoad}
-        className="flex-1 min-h-0 w-full rounded-2xl border-none shadow-sm ring-1 ring-border/50 bg-transparent relative z-10"
-        sandbox="allow-scripts allow-same-origin"
-      />
+      <div className="flex-1 w-full p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto overflow-y-auto">
+        <SettingsView
+          profile={appState.profile}
+          geminiApiKey={appState.geminiApiKey}
+          activeRole={appState.activeRole}
+          onSaveProfile={handleSaveProfile}
+          onSaveApiKey={handleSaveApiKey}
+        />
+      </div>
     </DashboardLayout>
   );
 }

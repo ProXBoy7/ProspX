@@ -1,48 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { useRef, useState } from "react";
-import { useTheme } from "../lib/use-theme";
+import { useState, useEffect } from "react";
+import { loadAppState, AppState } from "../lib/store";
+import { GroundedAIAssistantView } from "../components/ai/GroundedAIAssistantView";
 
 export const Route = createFileRoute("/ai-assistant")({
-  head: () => ({ meta: [{ title: "AI Assistant — ScholarGlass AI" }] }),
+  head: () => ({ meta: [{ title: "Grounded AI Essay Assistant — ScholarGlass AI" }] }),
   component: AIAssistantPage,
 });
 
 function AIAssistantPage() {
-  const { theme } = useTheme();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [appState, setAppState] = useState<AppState>(loadAppState);
 
-  const handleIframeLoad = () => {
-    setIsTransitioning(false);
-    try {
-      const doc = iframeRef.current?.contentDocument;
-      if (!doc) return;
-      doc.documentElement.className = theme;
-      const style = doc.createElement("style");
-      style.innerHTML = `
-        header.docked, header.sticky, header.top-0, header.mb-8, aside { display: none !important; }
-        body { margin: 0; padding: 16px; background: transparent !important; overflow-x: hidden; }
-      `;
-      doc.head.appendChild(style);
-    } catch {}
-  };
+  useEffect(() => {
+    const handleUpdate = () => {
+      setAppState(loadAppState());
+    };
+    window.addEventListener("scholarglass_state_updated", handleUpdate);
+    return () => window.removeEventListener("scholarglass_state_updated", handleUpdate);
+  }, []);
 
   return (
     <DashboardLayout>
-      {isTransitioning && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        </div>
-      )}
-      <iframe
-        ref={iframeRef}
-        src="/screens/page8.html"
-        title="AI Assistant"
-        onLoad={handleIframeLoad}
-        className="flex-1 min-h-0 w-full rounded-2xl border-none shadow-sm ring-1 ring-border/50 bg-transparent relative z-10"
-        sandbox="allow-scripts allow-same-origin"
-      />
+      <div className="flex-1 w-full p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto overflow-y-auto">
+        <GroundedAIAssistantView
+          profile={appState.profile}
+          certificates={appState.certificates}
+          activities={appState.activities || []}
+          geminiApiKey={appState.geminiApiKey}
+          activeRole={appState.activeRole}
+        />
+      </div>
     </DashboardLayout>
   );
 }

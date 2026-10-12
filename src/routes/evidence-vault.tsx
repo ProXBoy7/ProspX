@@ -1,48 +1,121 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { useRef, useState } from "react";
-import { useTheme } from "../lib/use-theme";
+import { useState, useEffect } from "react";
+import { 
+  loadAppState, 
+  saveAppState, 
+  AppState, 
+  EvidenceCertificate, 
+  ActivityItem,
+  addActivity,
+  updateActivity,
+  deleteActivity 
+} from "../lib/store";
+import { EvidenceVaultView } from "../components/vault/EvidenceVaultView";
+import { ActivitiesSaverView } from "../components/activities/ActivitiesSaverView";
+import { ShieldCheck, Trophy, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/evidence-vault")({
-  head: () => ({ meta: [{ title: "Evidence Vault — ScholarGlass AI" }] }),
+  head: () => ({ meta: [{ title: "Evidence Vault & Activities — ScholarGlass ProspX" }] }),
   component: EvidenceVaultPage,
 });
 
 function EvidenceVaultPage() {
-  const { theme } = useTheme();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  const [appState, setAppState] = useState<AppState>(loadAppState);
+  const [vaultTab, setVaultTab] = useState<"certificates" | "activities">("certificates");
 
-  const handleIframeLoad = () => {
-    setIsTransitioning(false);
-    try {
-      const doc = iframeRef.current?.contentDocument;
-      if (!doc) return;
-      doc.documentElement.className = theme;
-      const style = doc.createElement("style");
-      style.innerHTML = `
-        header.docked, header.sticky, header.top-0, header.mb-8, aside { display: none !important; }
-        body { margin: 0; padding: 16px; background: transparent !important; overflow-x: hidden; }
-      `;
-      doc.head.appendChild(style);
-    } catch {}
+  useEffect(() => {
+    const handleUpdate = () => {
+      setAppState(loadAppState());
+    };
+    window.addEventListener("scholarglass_state_updated", handleUpdate);
+    return () => window.removeEventListener("scholarglass_state_updated", handleUpdate);
+  }, []);
+
+  const handleAddCertificate = (cert: EvidenceCertificate) => {
+    const updated = {
+      ...appState,
+      certificates: [cert, ...appState.certificates]
+    };
+    setAppState(updated);
+    saveAppState(updated);
+  };
+
+  const handleDeleteCertificate = (id: string) => {
+    const updated = {
+      ...appState,
+      certificates: appState.certificates.filter((c) => c.id !== id)
+    };
+    setAppState(updated);
+    saveAppState(updated);
+  };
+
+  const handleAddActivity = (act: ActivityItem) => {
+    const updated = addActivity(act);
+    setAppState(updated);
+  };
+
+  const handleUpdateActivity = (act: ActivityItem) => {
+    const updated = updateActivity(act);
+    setAppState(updated);
+  };
+
+  const handleDeleteActivity = (id: string) => {
+    const updated = deleteActivity(id);
+    setAppState(updated);
   };
 
   return (
     <DashboardLayout>
-      {isTransitioning && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+      <div className="flex-1 w-full p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto overflow-y-auto space-y-6">
+        {/* Top Vault Mode Switcher Tabs */}
+        <div className="flex items-center justify-center sm:justify-start">
+          <div className="flex p-1.5 bg-card/60 backdrop-blur-xl rounded-full border border-border shadow-xs">
+            <button
+              onClick={() => setVaultTab("certificates")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
+                vaultTab === "certificates"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <ShieldCheck className="w-4 h-4" />
+              <span>Official Test Scores & Transcripts ({appState.certificates.length})</span>
+            </button>
+
+            <button
+              onClick={() => setVaultTab("activities")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold transition-all ${
+                vaultTab === "activities"
+                  ? "bg-primary text-primary-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Trophy className="w-4 h-4 text-amber-400" />
+              <span>Extracurriculars & Olympiad Records ({appState.activities?.length || 0})</span>
+            </button>
+          </div>
         </div>
-      )}
-      <iframe
-        ref={iframeRef}
-        src="/screens/page15.html"
-        title="Evidence Vault"
-        onLoad={handleIframeLoad}
-        className="flex-1 min-h-0 w-full rounded-2xl border-none shadow-sm ring-1 ring-border/50 bg-transparent relative z-10"
-        sandbox="allow-scripts allow-same-origin"
-      />
+
+        {vaultTab === "certificates" ? (
+          <EvidenceVaultView
+            certificates={appState.certificates}
+            geminiApiKey={appState.geminiApiKey}
+            activeRole={appState.activeRole}
+            onAddCertificate={handleAddCertificate}
+            onDeleteCertificate={handleDeleteCertificate}
+          />
+        ) : (
+          <ActivitiesSaverView
+            activities={appState.activities || []}
+            activeRole={appState.activeRole}
+            onAddActivity={handleAddActivity}
+            onUpdateActivity={handleUpdateActivity}
+            onDeleteActivity={handleDeleteActivity}
+          />
+        )}
+      </div>
     </DashboardLayout>
   );
 }
+

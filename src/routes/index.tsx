@@ -16,7 +16,7 @@ import AnimatedProgressBar from '../components/ui/smoothui/animated-progress-bar
 import { FileText, Bell, Share2, Calendar, Verified, Bot, Milestone } from 'lucide-react';
 import { motion, AnimatePresence } from "motion/react";
 
-function HeroTitle() {
+function HeroTitle({ customTitle }: { customTitle?: string }) {
   const [highlightPill, setHighlightPill] = useState(false);
 
   useEffect(() => {
@@ -25,6 +25,14 @@ function HeroTitle() {
     }, 1100);
     return () => clearTimeout(timer);
   }, []);
+
+  if (customTitle) {
+    return (
+      <h1 className="text-4xl font-black leading-[1.12] tracking-tight text-foreground sm:text-5xl md:text-6xl max-w-3xl">
+        {customTitle}
+      </h1>
+    );
+  }
 
   return (
     <h1 className="text-5xl font-extrabold leading-[1.12] tracking-tight text-primary sm:text-6xl md:text-7xl">
@@ -96,6 +104,21 @@ function Index() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const [customTitle, setCustomTitle] = useState<string>("");
+  const [customSubtitle, setCustomSubtitle] = useState<string>("");
+  const [customCta, setCustomCta] = useState<string>("Launch Your Portfolio");
+
+  useEffect(() => {
+    try {
+      const t = localStorage.getItem("prospx_hero_title");
+      const s = localStorage.getItem("prospx_hero_subtitle");
+      const c = localStorage.getItem("prospx_hero_cta");
+      if (t) setCustomTitle(t);
+      if (s) setCustomSubtitle(s);
+      if (c) setCustomCta(c);
+    } catch {}
+  }, []);
+
   return (
     <div
       className="min-h-screen bg-background text-foreground transition-colors"
@@ -141,6 +164,12 @@ function Index() {
           </Link>
           <div className="flex items-center gap-2">
             <Link
+              to="/universities"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold text-foreground hover:bg-muted/50 transition border border-border/60"
+            >
+              <span>Explore Universities</span>
+            </Link>
+            <Link
               to="/sign-in"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-md hover:opacity-90 transition"
             >
@@ -151,7 +180,6 @@ function Index() {
         </div>
       </header>
 
-
       {/* Hero */}
       <section
         id="auth"
@@ -161,12 +189,30 @@ function Index() {
           <p className="mb-6 text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
             <PerWordCrossfade>Luminous Acrylic · Student Portfolio Suite</PerWordCrossfade>
           </p>
-          <HeroTitle />
+          <HeroTitle customTitle={customTitle} />
           <p className="mx-auto mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
             <ShimmerSweep delay={600}>
-              A calm, luminous workspace where evidence, projects, and AI synthesis live side by side — built for the way modern students actually research.
+              {customSubtitle || "A calm, luminous workspace where evidence, projects, and AI synthesis live side by side — built for the way modern students actually research."}
             </ShimmerSweep>
           </p>
+
+          {/* Action CTA Buttons */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <Link
+              to="/sign-up"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-bold text-primary-foreground shadow-lg hover:opacity-90 active:scale-95 transition"
+            >
+              <span>{customCta}</span>
+              <span className="material-symbols-outlined text-base">arrow_forward</span>
+            </Link>
+            <Link
+              to="/universities"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 backdrop-blur-md px-6 py-3.5 text-sm font-bold text-foreground hover:bg-card transition"
+            >
+              <span className="material-symbols-outlined text-base text-primary">travel_explore</span>
+              <span>Browse QS Rankings</span>
+            </Link>
+          </div>
         </div>
 
         <a

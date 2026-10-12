@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 
-export type Theme = "light" | "dark" | "glass" | "light-glass" | "glassmorphism";
+export type Theme = "light" | "dark";
 const KEY = "sg-theme";
-const ORDER: Theme[] = ["light", "dark", "glass", "light-glass", "glassmorphism"];
+const ORDER: Theme[] = ["light", "dark"];
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const stored = (localStorage.getItem(KEY) as Theme | null) ?? "light";
-    setTheme(stored);
+    const stored = (localStorage.getItem(KEY) as Theme | null);
+    if (stored === "dark" || stored === "light") {
+      setTheme(stored);
+    } else {
+      setTheme("light");
+    }
   }, []);
 
   useEffect(() => {
@@ -19,8 +23,9 @@ export function useTheme() {
     localStorage.setItem(KEY, theme);
   }, [theme]);
 
-  const cycle = () => setTheme((t) => ORDER[(ORDER.indexOf(t) + 1) % ORDER.length]);
-  return { theme, setTheme, cycle };
+  const cycle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+  const toggle = () => setTheme((t) => (t === "light" ? "dark" : "light"));
+  return { theme, setTheme, cycle, toggle };
 }
 
 export function getStoredUser(): { name: string; email: string } | null {
