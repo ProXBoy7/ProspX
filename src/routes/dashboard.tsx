@@ -114,26 +114,33 @@ function DashboardPage() {
   return (
     <DashboardLayout>
       <div className="flex-1 w-full p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto overflow-y-auto space-y-6">
-        {/* Active Account & Assigned Role Banner */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-muted/40 border border-border/60">
+        {/* Active User & Verified Security Banner */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-card border border-border shadow-xs">
           <div className="flex items-center gap-2.5">
-            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-                  Active User Role:
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-extrabold text-foreground">
+                  {appState.profile.name}
                 </span>
-                <span className="text-xs font-black text-foreground capitalize">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20 capitalize">
                   {appState.activeRole} Account
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary border border-primary/20">
-                  Strict 1 Role Per User
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-muted text-muted-foreground border border-border">
+                  {appState.profile.subscriptionPlan?.toUpperCase() || "FREE"} Tier
                 </span>
               </div>
               <p className="text-[11px] text-muted-foreground mt-0.5">
-                Each account in the 10-user database has a single assigned permission set and dedicated view.
+                Role-specific verified access · Academic Session 2025–2026
               </p>
             </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-end sm:self-auto text-xs text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted/50 border border-border/60 text-[11px] font-semibold">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+              Verified Session
+            </span>
           </div>
         </div>
 

@@ -318,6 +318,8 @@ export interface AppState {
   rosterStudents: RosterStudent[];
   lorRequests: LorRequest[];
   universities: University[];
+  isNewUser?: boolean;
+  onboardingCompleted?: boolean;
 }
 
 export const STUDENT_PRESETS: Record<
@@ -1066,20 +1068,27 @@ export function loadAppState(): AppState {
     if (!parsed.rosterStudents) parsed.rosterStudents = INITIAL_ROSTER;
     if (!parsed.lorRequests) parsed.lorRequests = INITIAL_LOR_REQUESTS;
     if (!parsed.universities) parsed.universities = UNIVERSITIES_DATABASE;
-    if (!parsed.activities || !Array.isArray(parsed.activities) || parsed.activities.length === 0) {
+    if (!parsed.activities || !Array.isArray(parsed.activities)) {
       parsed.activities = INITIAL_ACTIVITIES;
+    }
+    if (!parsed.certificates || !Array.isArray(parsed.certificates)) {
+      parsed.certificates = INITIAL_CERTIFICATES;
+    }
+    if (!parsed.applications || !Array.isArray(parsed.applications)) {
+      parsed.applications = INITIAL_APPLICATIONS;
     }
     if (!parsed.scholarPass || !Array.isArray(parsed.scholarPass.quests)) {
       parsed.scholarPass = INITIAL_SCHOLAR_PASS;
     } else {
       parsed.scholarPass = {
-        ...INITIAL_SCHOLAR_PASS,
-        ...parsed.scholarPass,
-        claimedTierIds: Array.isArray(parsed.scholarPass.claimedTierIds) ? parsed.scholarPass.claimedTierIds : [40, 41],
+        seasonName: parsed.scholarPass.seasonName || INITIAL_SCHOLAR_PASS.seasonName,
+        seasonDescription: parsed.scholarPass.seasonDescription || INITIAL_SCHOLAR_PASS.seasonDescription,
+        claimedTierIds: Array.isArray(parsed.scholarPass.claimedTierIds) ? parsed.scholarPass.claimedTierIds : [],
         quests: Array.isArray(parsed.scholarPass.quests) ? parsed.scholarPass.quests : INITIAL_SCHOLAR_PASS.quests,
-        targetXp: parsed.scholarPass.targetXp || 10000,
-        currentXp: typeof parsed.scholarPass.currentXp === "number" ? parsed.scholarPass.currentXp : 8450,
-        level: parsed.scholarPass.level || 42,
+        targetXp: parsed.scholarPass.targetXp || 500,
+        currentXp: typeof parsed.scholarPass.currentXp === "number" ? parsed.scholarPass.currentXp : 0,
+        level: typeof parsed.scholarPass.level === "number" ? parsed.scholarPass.level : 1,
+        streakDays: typeof parsed.scholarPass.streakDays === "number" ? parsed.scholarPass.streakDays : 1,
       };
     }
     if (!parsed.geminiApiKey) {
@@ -1101,6 +1110,132 @@ export function loadAppState(): AppState {
       universities: UNIVERSITIES_DATABASE
     };
   }
+}
+
+export interface RegisteredUser {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  role: UserRole;
+  createdAt: string;
+  subscriptionPlan: SubscriptionPlan;
+}
+
+const REGISTERED_USERS_KEY = "scholarglass_registered_users_db";
+
+export function getRegisteredUsers(): RegisteredUser[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(REGISTERED_USERS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveRegisteredUser(user: RegisteredUser): void {
+  if (typeof window === "undefined") return;
+  try {
+    const users = getRegisteredUsers().filter((u) => u.email.toLowerCase() !== user.email.toLowerCase());
+    users.push(user);
+    localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(users));
+  } catch (e) {
+    console.error("Failed to save registered user", e);
+  }
+}
+
+export function findRegisteredUser(email: string): RegisteredUser | undefined {
+  return getRegisteredUsers().find((u) => u.email.toLowerCase() === email.toLowerCase());
+}
+
+export function createNewUserAppState(name: string, email: string, role: UserRole): AppState {
+  const envKey = typeof window !== "undefined" ? ((import.meta as any).env?.VITE_GEMINI_API_KEY || "") : "";
+  const cleanState: AppState = {
+    activeRole: role,
+    isNewUser: true,
+    onboardingCompleted: false,
+    profile: {
+      id: `student-${Date.now()}`,
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      nationality: "Unspecified",
+      targetDegree: "Bachelor's",
+      intendedMajor: "Undecided Major",
+      annualBudgetUsd: 0,
+      priority: "balanced",
+      preferredCountries: [],
+      selfReportedGpa: 0,
+      verifiedGpa: undefined,
+      academicNotes: "Fresh student profile initialized. Ready for admissions onboarding.",
+      schoolName: "",
+      counselorName: "",
+      subscriptionPlan: "free",
+    },
+    certificates: [], // Completely EMPTY for new user!
+    applications: [], // Completely EMPTY for new user!
+    activities: [],   // Completely EMPTY for new user!
+    scholarPass: {
+      seasonName: "Spring '26 Onboarding Season",
+      seasonDescription: "Complete the initial onboarding tutorial steps to level up your Scholar Pass.",
+      level: 1,
+      currentXp: 0,
+      targetXp: 500,
+      streakDays: 1,
+      claimedTierIds: [],
+      quests: [
+        {
+          id: "tut-profile",
+          title: "Step 1: Complete Academic Profile",
+          description: "Set your target major, target degree, and self-reported GPA.",
+          category: "daily",
+          xpReward: 200,
+          progress: 0,
+          maxProgress: 1,
+          completed: false,
+          icon: "person"
+        },
+        {
+          id: "tut-uni",
+          title: "Step 2: Shortlist a University",
+          description: "Explore the QS World University catalog and add 1 institution to your wishlist.",
+          category: "daily",
+          xpReward: 250,
+          progress: 0,
+          maxProgress: 1,
+          completed: false,
+          icon: "travel_explore"
+        },
+        {
+          id: "tut-project",
+          title: "Step 3: Document First Activity / Project",
+          description: "Record an extracurricular, Olympiad, or independent project with memorable details.",
+          category: "daily",
+          xpReward: 300,
+          progress: 0,
+          maxProgress: 1,
+          completed: false,
+          icon: "military_tech"
+        },
+        {
+          id: "tut-essay",
+          title: "Step 4: Explore AI Essay Lab",
+          description: "Generate or audit a grounded admission essay snippet based on your vault.",
+          category: "daily",
+          xpReward: 350,
+          progress: 0,
+          maxProgress: 1,
+          completed: false,
+          icon: "smart_toy"
+        }
+      ]
+    },
+    geminiApiKey: envKey,
+    rosterStudents: INITIAL_ROSTER,
+    lorRequests: INITIAL_LOR_REQUESTS,
+    universities: UNIVERSITIES_DATABASE
+  };
+  return cleanState;
 }
 
 export function saveAppState(state: AppState) {

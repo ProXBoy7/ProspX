@@ -59,19 +59,16 @@ export function AuthShell({
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,2rem)] pt-6 pb-16">
-        <div className="w-full max-w-md text-center">
-          <h1
-            className="font-extrabold leading-[1.05] tracking-tight text-primary"
-            style={{ fontSize: "clamp(2.25rem, 6vw, 3.75rem)" }}
-          >
-            {parts[0]}
-            <span className="inline-block rounded-xl bg-primary px-3 py-1 text-primary-foreground">
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center px-[clamp(1rem,4vw,2rem)] pt-10 sm:pt-14 pb-16">
+        <div className="w-full max-w-lg text-center">
+          <h1 className="font-black leading-snug tracking-tight text-foreground flex flex-wrap items-center justify-center gap-2 text-3xl sm:text-4xl md:text-5xl">
+            <span>{parts[0]?.trim()}</span>
+            <span className="inline-flex items-center rounded-2xl bg-primary px-3.5 py-1 text-primary-foreground shadow-md shadow-primary/20">
               {accentWord}
             </span>
-            {parts[1]}
+            <span>{parts[1]?.trim()}</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-sm text-base leading-relaxed text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-md text-sm sm:text-base leading-relaxed text-muted-foreground">
             {sub}
           </p>
         </div>

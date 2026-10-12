@@ -1,18 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { AuthShell, Field } from "../components/auth-shell";
-import { getStoredUser, setStoredUser } from "../lib/use-theme";
-import { TEST_ACCOUNTS, TestAccount, loadAppState, saveAppState, switchAccount } from "../lib/store";
+import { setStoredUser } from "../lib/use-theme";
 import { 
-  GraduationCap, 
-  Building2, 
-  PenTool, 
-  ShieldAlert, 
-  Sparkles, 
-  ArrowRight,
-  ShieldCheck,
-  Check
-} from "lucide-react";
+  TEST_ACCOUNTS, 
+  loadAppState, 
+  saveAppState, 
+  switchAccount,
+  findRegisteredUser 
+} from "../lib/store";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/sign-in")({
@@ -27,48 +23,67 @@ export const Route = createFileRoute("/sign-in")({
 
 function SignInPage() {
   const navigate = useNavigate();
-  const stored = typeof window !== "undefined" ? getStoredUser() : null;
-  const [email, setEmail] = useState(stored?.email ?? "");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email.trim() || !password) {
+      toast.error("Please enter both email and password.");
+      return;
+    }
 
     setIsLoading(true);
 
-    // Check if entered email matches one of known accounts
-    const match = TEST_ACCOUNTS.find((a) => a.email.toLowerCase() === email.toLowerCase());
+    const cleanEmail = email.trim().toLowerCase();
+
+    // 1. Check known institutional test accounts
+    const match = TEST_ACCOUNTS.find((a) => a.email.toLowerCase() === cleanEmail);
     if (match) {
-      // Validate password for known accounts
-      if (password && match.password && password !== match.password) {
+      if (password !== match.password) {
         setIsLoading(false);
-        toast.error("Invalid password. Please try again.");
+        toast.error("Invalid password. Please check your credentials.");
         return;
       }
       setStoredUser({ name: match.name, email: match.email });
       switchAccount(match.email);
+      setIsLoading(false);
       toast.success(`Welcome back, ${match.name}! (${match.badge})`);
       navigate({ to: "/dashboard" });
       return;
     }
 
-    // Default student user for new/custom email
-    const name = email.split("@")[0].replace(/[._-]/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
-    setStoredUser({ name, email });
-    const state = loadAppState();
-    const updated = {
-      ...state,
-      profile: {
-        ...state.profile,
-        name,
-        email
+    // 2. Check registered accounts
+    const registered = findRegisteredUser(cleanEmail);
+    if (registered) {
+      if (password !== registered.password) {
+        setIsLoading(false);
+        toast.error("Invalid password. Please check your credentials.");
+        return;
       }
-    };
-    saveAppState(updated);
-    toast.success(`Signed in as ${name}`);
-    navigate({ to: "/dashboard" });
+      setStoredUser({ name: registered.name, email: registered.email });
+      const state = loadAppState();
+      const updated = {
+        ...state,
+        activeRole: registered.role,
+        profile: {
+          ...state.profile,
+          name: registered.name,
+          email: registered.email,
+          subscriptionPlan: registered.subscriptionPlan
+        }
+      };
+      saveAppState(updated);
+      setIsLoading(false);
+      toast.success(`Welcome back, ${registered.name}!`);
+      navigate({ to: "/dashboard" });
+      return;
+    }
+
+    // 3. Account not found
+    setIsLoading(false);
+    toast.error("No account found with this email. Please sign up to create a new profile.");
   };
 
   return (
