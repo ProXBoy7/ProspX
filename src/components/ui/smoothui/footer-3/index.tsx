@@ -35,38 +35,41 @@ export interface FooterMegaProps {
 
 const defaultColumns = [
   {
-    title: "Product",
+    title: "Admissions Suite",
     links: [
-      { label: "Features", href: "#features" },
-      { label: "Pricing", href: "#pricing" },
-      { label: "Changelog", href: "#changelog" },
-      { label: "Documentation", href: "#docs" },
+      { label: "QS University Finder", href: "/universities" },
+      { label: "AI Essay Lab", href: "/ai-assistant" },
+      { label: "Scholar Pass & Quests", href: "/scholar-pass" },
+      { label: "Evidence & Activity Vault", href: "/evidence-vault" },
+      { label: "5-Stage Admissions Kanban", href: "/dashboard" },
     ],
   },
   {
-    title: "Company",
+    title: "Platform Roles",
     links: [
-      { label: "About", href: "#about" },
-      { label: "Blog", href: "#blog" },
-      { label: "Careers", href: "#careers" },
-      { label: "Contact", href: "#contact" },
+      { label: "Student Portfolio", href: "/dashboard" },
+      { label: "Counselor Roster Hub", href: "/dashboard" },
+      { label: "Teacher LOR Desk", href: "/dashboard" },
+      { label: "Admissions Committee", href: "/dashboard" },
+      { label: "Admin Console & DB", href: "/admin" },
     ],
   },
   {
-    title: "Resources",
+    title: "Admissions Intel",
     links: [
-      { label: "Community", href: "#community" },
-      { label: "GitHub", href: "#github" },
-      { label: "Discord", href: "#discord" },
-      { label: "Help Center", href: "#help" },
+      { label: "Academic Dossier Exporter", href: "/dashboard" },
+      { label: "GPA & Visa Benchmarks", href: "/universities" },
+      { label: "Admissions Manifesto", href: "#manifesto" },
+      { label: "Advisory & Support", href: "#support" },
     ],
   },
   {
-    title: "Legal",
+    title: "Security & Trust",
     links: [
-      { label: "Privacy Policy", href: "#privacy" },
-      { label: "Terms of Service", href: "#terms" },
-      { label: "Cookie Policy", href: "#cookies" },
+      { label: "Single-Role Security Policy", href: "#faq" },
+      { label: "Tamper-Evident Vault", href: "/evidence-vault" },
+      { label: "Data Privacy & Shield", href: "#manifesto" },
+      { label: "Platform Verification", href: "#support" },
     ],
   },
 ];
@@ -95,17 +98,26 @@ const defaultSocialLinks = [
 ];
 
 export const FooterMega = ({
-  logo = <span className="font-bold text-2xl text-foreground">SmoothUI</span>,
-  description = "Beautiful animated React components for building modern user interfaces with smooth animations and delightful interactions.",
+  logo = (
+    <div className="flex items-center gap-2.5">
+      <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-md shadow-primary/25">
+        <span className="material-symbols-outlined text-xl">auto_awesome</span>
+      </div>
+      <span className="font-black text-2xl tracking-tight text-foreground">
+        Prosp<span className="text-primary">X</span>
+      </span>
+    </div>
+  ),
+  description = "ProspX is the next-generation academic admissions workspace. Empowers ambitious students to curate verified extracurriculars, discover global universities, and craft evidence-grounded essays.",
   columns = defaultColumns,
   newsletter = {
-    title: "Subscribe to our newsletter",
-    description: "Get the latest updates and news delivered to your inbox.",
-    placeholder: "Enter your email",
-    buttonText: "Subscribe",
+    title: "Stay ahead of global admission deadlines",
+    description: "Get quarterly updates on QS ranking shifts, international scholarship opportunities, and early decision strategies.",
+    placeholder: "Enter your academic email",
+    buttonText: "Join ProspX Intel",
   },
   socialLinks = defaultSocialLinks,
-  copyright = "© 2024 SmoothUI. All rights reserved.",
+  copyright = "© 2026 ProspX · ScholarGlass AI Systems. All rights reserved.",
 }: FooterMegaProps) => {
   const shouldReduceMotion = useReducedMotion();
 

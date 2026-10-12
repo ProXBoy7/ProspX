@@ -24,37 +24,37 @@ interface FaqsAccordionProps {
 
 export function FaqsAccordion({
   title = "Frequently Asked Questions",
-  description = "Find answers to common questions about our product and services",
+  description = "Find answers to common questions about ProspX admissions features, evidence vaults, and AI essay grounding",
   faqs = [
     {
-      question: "What is Smoothui?",
+      question: "What is ProspX and how does it help with university admissions?",
       answer:
-        "Smoothui is a modern UI component library that provides beautiful, animated components for building stunning user interfaces. It includes pre-built components with smooth animations and customizable themes.",
+        "ProspX is an intelligent academic admissions platform that bridges verified extracurriculars, independent research, and college applications. It empowers students to track achievements with tamper-evident proof, discover 30+ QS-ranked universities, and generate essays strictly grounded in their real experiences.",
     },
     {
-      question: "How do I get started?",
+      question: "How does the Evidence & Activities Vault preserve my records?",
       answer:
-        "Getting started is easy! Simply install the package via npm or yarn, import the components you need, and start building. We provide comprehensive documentation and examples to help you get up and running quickly.",
+        "The Evidence Vault securely stores your independent research, Olympiad medals, competitions, and leadership activities along with personal 'memorable moments'. These reflections serve as authentic, verifiable evidence for admissions committees and personal statement drafting.",
     },
     {
-      question: "Is it free to use?",
+      question: "How does the AI Essay Lab ensure my personal statement is grounded and unique?",
       answer:
-        "Yes! Smoothui is completely free and open source. You can use it in both personal and commercial projects without any restrictions. We believe in making beautiful UI components accessible to everyone.",
+        "The AI Essay Lab uses Google Gemini to generate and critique essays anchored directly in your verified vault data. Instead of generating generic clichés, the AI weaves your specific project turning points and contest breakthroughs into compelling narratives while providing structural and tone critique.",
     },
     {
-      question: "Can I customize the components?",
+      question: "What is the Scholar Pass and how do students earn XP?",
       answer:
-        "Absolutely! All components are fully customizable. You can modify colors, spacing, animations, and more using CSS variables or by extending the component classes. We also provide a theming system for easy customization.",
+        "The Scholar Pass is a gamified admissions companion. As you complete vital milestones—such as drafting essay prompts, uploading official transcripts, exploring QS universities, or logging volunteering hours—you earn XP to level up tiers, unlocking new features and badges.",
     },
     {
-      question: "What frameworks are supported?",
+      question: "Can school counselors and teachers collaborate on ProspX?",
       answer:
-        "Currently, Smoothui supports React and Next.js. We're working on expanding support to other popular frameworks like Vue, Svelte, and Angular in the coming months.",
+        "Yes! ProspX features strict single-role security for students, school counselors, and faculty teachers. Counselors can manage student rosters and verify GPAs, while teachers can write and cryptographically sign Letters of Recommendation (LORs) grounded in classroom observations.",
     },
     {
-      question: "How often do you release updates?",
+      question: "How does the QS University Finder work with my profile?",
       answer:
-        "We release updates regularly, typically every 2-3 weeks. This includes new components, bug fixes, performance improvements, and new features. You can follow our changelog to stay updated on the latest releases.",
+        "The built-in QS World University database lets you filter top global universities by your self-reported or verified GPA, target degree, budget, popular majors, and international visa requirements (such as US F-1, UK CAS, or Swiss Canton permits).",
     },
   ],
 }: FaqsAccordionProps) {

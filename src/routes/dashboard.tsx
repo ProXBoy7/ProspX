@@ -34,6 +34,7 @@ function DashboardPage() {
   const [studentViewTab, setStudentViewTab] = useState<"projects" | "kanban">("projects");
 
   useEffect(() => {
+    setAppState(loadAppState());
     const handleUpdate = () => {
       setAppState(loadAppState());
     };
