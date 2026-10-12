@@ -8,12 +8,15 @@ import { CounselorHubView } from "../components/counselor/CounselorHubView";
 import { TeacherHubView } from "../components/teacher/TeacherHubView";
 import { AdminHubView } from "../components/admin/AdminHubView";
 import { AdmissionsReviewerView } from "../components/admissions/AdmissionsReviewerView";
+import { StudentProjectsMainView } from "../components/dashboard/StudentProjectsMainView";
 import { 
   GraduationCap, 
   Building2, 
   PenTool, 
   ShieldAlert, 
-  CheckCircle2 
+  CheckCircle2,
+  LayoutGrid,
+  FolderKanban
 } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
@@ -28,6 +31,7 @@ export const Route = createFileRoute("/dashboard")({
 function DashboardPage() {
   const [appState, setAppState] = useState<AppState>(loadAppState);
   const [isDiagnosticOpen, setIsDiagnosticOpen] = useState(false);
+  const [studentViewTab, setStudentViewTab] = useState<"projects" | "kanban">("projects");
 
   useEffect(() => {
     const handleUpdate = () => {
@@ -135,17 +139,68 @@ function DashboardPage() {
 
         {/* 1. STUDENT VERSION */}
         {appState.activeRole === "student" && (
-          <>
-            <ApplicationKanban
-              applications={appState.applications}
-              profile={appState.profile}
-              certificates={appState.certificates}
-              onUpdateStage={handleUpdateStage}
-              onUpdateChecklist={handleUpdateChecklist}
-              onDeleteApplication={handleDeleteApplication}
-              onAddApplication={handleAddApplication}
-              onOpenDiagnostic={() => setIsDiagnosticOpen(true)}
-            />
+          <div className="space-y-6">
+            {/* View Switcher Pill Bar */}
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div className="flex items-center gap-1.5 p-1 bg-card rounded-full border border-border shadow-xs">
+                <button
+                  type="button"
+                  onClick={() => setStudentViewTab("projects")}
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
+                    studentViewTab === "projects"
+                      ? "bg-primary text-white shadow-xs"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <LayoutGrid className="w-3.5 h-3.5" />
+                  <span>Academic Overview & Projects</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setStudentViewTab("kanban")}
+                  className={`px-4 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
+                    studentViewTab === "kanban"
+                      ? "bg-primary text-white shadow-xs"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <FolderKanban className="w-3.5 h-3.5" />
+                  <span>5-Stage Admissions Kanban ({appState.applications.length})</span>
+                </button>
+              </div>
+
+              <div className="text-xs text-muted-foreground hidden sm:block">
+                <span>Active Profile: <strong>{appState.profile.name}</strong> · {appState.profile.subscriptionPlan.toUpperCase()} Plan</span>
+              </div>
+            </div>
+
+            {/* View 1: Academic Projects & Activities Overview (Matching Reference Image) */}
+            {studentViewTab === "projects" && (
+              <StudentProjectsMainView
+                appState={appState}
+                onUpdateState={(newState) => {
+                  setAppState(newState);
+                  saveAppState(newState);
+                }}
+                onOpenDiagnostic={() => setIsDiagnosticOpen(true)}
+                onSwitchToKanban={() => setStudentViewTab("kanban")}
+              />
+            )}
+
+            {/* View 2: 5-Stage Admissions Kanban Board */}
+            {studentViewTab === "kanban" && (
+              <ApplicationKanban
+                applications={appState.applications}
+                profile={appState.profile}
+                certificates={appState.certificates}
+                onUpdateStage={handleUpdateStage}
+                onUpdateChecklist={handleUpdateChecklist}
+                onDeleteApplication={handleDeleteApplication}
+                onAddApplication={handleAddApplication}
+                onOpenDiagnostic={() => setIsDiagnosticOpen(true)}
+              />
+            )}
 
             <DiagnosticSurveyModal
               isOpen={isDiagnosticOpen}
@@ -154,7 +209,7 @@ function DashboardPage() {
               certificates={appState.certificates}
               onAddApplication={handleAddApplication}
             />
-          </>
+          </div>
         )}
 
         {/* 2. SCHOOL COUNSELOR VERSION */}
